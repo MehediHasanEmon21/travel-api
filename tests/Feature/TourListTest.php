@@ -34,11 +34,10 @@ class TourListTest extends TestCase
         $travel = Travel::factory()->create();
         $tour = Tour::factory()->create(['travel_id' => $travel->id, 'price' => 123.23]);
 
-        $res = $this->get("/api/v1/travels/$travel->slug/tour");
-
+        $res = $this->get("/api/v1/travels/{$travel->slug}/tour");
         $res->assertStatus(200);
         $res->assertJsonCount(1, 'data');
-        $res->assertJsonFragment([ 'price' => 123.23 ]);
+        $res->assertJsonFragment([ 'price' => '123.23' ]);
 
 
     }
