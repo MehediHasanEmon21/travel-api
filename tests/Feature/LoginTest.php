@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class LoginTest extends TestCase
@@ -15,10 +14,10 @@ class LoginTest extends TestCase
     use RefreshDatabase;
 
     public function test_login_return_access_token_in_valid_credential(): void
-    {   
+    {
         $user = User::factory()->create();
 
-        $response = $this->postJson('/api/v1/login',[
+        $response = $this->postJson('/api/v1/login', [
             'email' => $user->email,
             'password' => 'password',
         ]);
@@ -28,14 +27,14 @@ class LoginTest extends TestCase
     }
 
     public function test_login_return_error_invalid_credential(): void
-    {   
+    {
 
-        $response = $this->postJson('/api/v1/login',[
+        $response = $this->postJson('/api/v1/login', [
             'email' => 'email@email.com',
             'password' => 'password',
         ]);
 
         $response->assertStatus(422);
-   
+
     }
 }

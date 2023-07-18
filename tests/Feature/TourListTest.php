@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\Tour;
 use App\Models\Travel;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
 class TourListTest extends TestCase
@@ -24,8 +23,7 @@ class TourListTest extends TestCase
 
         $res->assertStatus(200);
         $res->assertJsonCount(1, 'data');
-        $res->assertJsonFragment([ 'id' => $tour->id ]);
-
+        $res->assertJsonFragment(['id' => $tour->id]);
 
     }
 
@@ -37,13 +35,12 @@ class TourListTest extends TestCase
         $res = $this->get("/api/v1/travels/{$travel->slug}/tour");
         $res->assertStatus(200);
         $res->assertJsonCount(1, 'data');
-        $res->assertJsonFragment([ 'price' => '123.23' ]);
-
+        $res->assertJsonFragment(['price' => '123.23']);
 
     }
 
     public function test_tour_list_returns_pagination(): void
-    {   
+    {
         $toursPerPage = config('app.paginationPerpage.tours');
 
         $travel = Travel::factory()->create();
@@ -54,7 +51,6 @@ class TourListTest extends TestCase
         $res->assertStatus(200);
         $res->assertJsonCount($toursPerPage, 'data');
         $res->assertJsonPath('meta.last_page', 2);
-
 
     }
 
@@ -97,41 +93,39 @@ class TourListTest extends TestCase
 
         $endpoint = "/api/v1/travels/$travel->slug/tour";
 
-        $res = $this->get($endpoint . '?priceFrom=100');
+        $res = $this->get($endpoint.'?priceFrom=100');
         $res->assertStatus(200);
         $res->assertJsonCount(2, 'data');
         $res->assertJsonFragment(['id' => $expensiveTour->id]);
         $res->assertJsonFragment(['id' => $cheaperTour->id]);
 
-        $res = $this->get($endpoint . '?priceFrom=150');
+        $res = $this->get($endpoint.'?priceFrom=150');
         $res->assertStatus(200);
         $res->assertJsonCount(1, 'data');
         $res->assertJsonMissing(['id' => $cheaperTour->id]);
         $res->assertJsonFragment(['id' => $expensiveTour->id]);
 
-        $res = $this->get($endpoint . '?priceFrom=250');
+        $res = $this->get($endpoint.'?priceFrom=250');
         $res->assertStatus(200);
         $res->assertJsonCount(0, 'data');
 
-        $res = $this->get($endpoint . '?priceTo=200');
+        $res = $this->get($endpoint.'?priceTo=200');
         $res->assertStatus(200);
         $res->assertJsonCount(2, 'data');
         $res->assertJsonFragment(['id' => $expensiveTour->id]);
         $res->assertJsonFragment(['id' => $cheaperTour->id]);
 
-        $res = $this->get($endpoint . '?priceTo=150');
+        $res = $this->get($endpoint.'?priceTo=150');
         $res->assertStatus(200);
         $res->assertJsonCount(1, 'data');
         $res->assertJsonMissing(['id' => $expensiveTour->id]);
         $res->assertJsonFragment(['id' => $cheaperTour->id]);
 
-        $res = $this->get($endpoint . '?priceFrom=100&priceTo=250');
+        $res = $this->get($endpoint.'?priceFrom=100&priceTo=250');
         $res->assertStatus(200);
         $res->assertJsonCount(2, 'data');
         $res->assertJsonFragment(['id' => $expensiveTour->id]);
         $res->assertJsonFragment(['id' => $cheaperTour->id]);
-        
-
 
     }
 
@@ -145,6 +139,5 @@ class TourListTest extends TestCase
         $res = $this->getJson("/api/v1/travels/$travel->slug/tour?priceFrom=abcde");
         $res->assertStatus(422);
 
-       
     }
 }

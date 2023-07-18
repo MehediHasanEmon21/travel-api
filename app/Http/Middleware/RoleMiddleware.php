@@ -14,14 +14,14 @@ class RoleMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next, string $role): Response
-    {   
-        if(! auth()->check()){
+    {
+        if (! auth()->check()) {
             abort(401);
         }
 
-        if(! auth()->user()->roles()->where('name', $role)->exists()){
+        if (! auth()->user()->roles()->where('name', $role)->exists()) {
             return response()->json([
-                'error' => 'Permission Denied'
+                'error' => 'Permission Denied',
             ], 403);
         }
 

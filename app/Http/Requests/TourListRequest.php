@@ -21,7 +21,7 @@ class TourListRequest extends FormRequest
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
     public function rules(): array
-    {    
+    {
         return [
             'priceTo' => 'numeric',
             'priceFrom' => 'numeric',
@@ -33,8 +33,8 @@ class TourListRequest extends FormRequest
     }
 
     public function messages(): array
-    {   
-        
+    {
+
         return [
             'sortBy' => "The SortBy Parameter accept only 'price' value",
             'sortByOrder' => "The sortByOrder Parameter accept only 'asc', 'desc' value",

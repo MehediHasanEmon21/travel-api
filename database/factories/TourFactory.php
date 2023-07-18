@@ -20,7 +20,7 @@ class TourFactory extends Factory
             'name' => fake()->name(),
             'starting_date' => now(),
             'ending_date' => now()->addDays(rand(2, 5)),
-            'price' => fake()->randomFloat(2, 10, 999)
+            'price' => fake()->randomFloat(2, 10, 999),
         ];
     }
 }

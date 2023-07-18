@@ -145,7 +145,7 @@ return [
     ],
 
     'paginationPerpage' => [
-        'tours' => 15
+        'tours' => 15,
     ],
 
     /*
